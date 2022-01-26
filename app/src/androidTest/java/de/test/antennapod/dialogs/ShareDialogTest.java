@@ -41,7 +41,7 @@ import static org.hamcrest.CoreMatchers.allOf;
  */
 @RunWith(AndroidJUnit4.class)
 public class ShareDialogTest {
-// allo
+
     @Rule
     public IntentsTestRule<MainActivity> activityRule = new IntentsTestRule<>(MainActivity.class, false, false);
 
