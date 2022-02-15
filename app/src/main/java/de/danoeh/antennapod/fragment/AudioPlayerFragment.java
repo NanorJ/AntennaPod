@@ -75,7 +75,6 @@ public class AudioPlayerFragment extends Fragment implements
     public static final int POS_COVER = 0;
     public static final int POS_DESCRIPTION = 1;
     private static final int NUM_CONTENT_FRAGMENTS = 2;
-    private static final float EPSILON = 0.001f;
 
     PlaybackSpeedIndicatorView butPlaybackSpeed;
     TextView txtvPlaybackSpeed;
@@ -136,7 +135,7 @@ public class AudioPlayerFragment extends Fragment implements
 
         setupLengthTextView();
         setupControlButtons();
-        setupPlaybackSpeedButton();
+        butPlaybackSpeed.setOnClickListener(v -> new VariableSpeedDialog().show(getChildFragmentManager(), null));
         sbPosition.setOnSeekBarChangeListener(this);
 
         pager = root.findViewById(R.id.pager);
@@ -244,40 +243,6 @@ public class AudioPlayerFragment extends Fragment implements
         });
     }
 
-    private void setupPlaybackSpeedButton() {
-        butPlaybackSpeed.setOnClickListener(v -> {
-            if (controller == null) {
-                return;
-            }
-            List<Float> availableSpeeds = UserPreferences.getPlaybackSpeedArray();
-            float currentSpeed = controller.getCurrentPlaybackSpeedMultiplier();
-
-            int newSpeedIndex = 0;
-            while (newSpeedIndex < availableSpeeds.size()
-                    && availableSpeeds.get(newSpeedIndex) < currentSpeed + EPSILON) {
-                newSpeedIndex++;
-            }
-
-            float newSpeed;
-            if (availableSpeeds.size() == 0) {
-                newSpeed = 1.0f;
-            } else if (newSpeedIndex == availableSpeeds.size()) {
-                newSpeed = availableSpeeds.get(0);
-            } else {
-                newSpeed = availableSpeeds.get(newSpeedIndex);
-            }
-
-            controller.setPlaybackSpeed(newSpeed);
-            loadMediaInfo(false);
-        });
-        butPlaybackSpeed.setOnLongClickListener(v -> {
-            new VariableSpeedDialog().show(getChildFragmentManager(), null);
-            return true;
-        });
-        butPlaybackSpeed.setVisibility(View.VISIBLE);
-        txtvPlaybackSpeed.setVisibility(View.VISIBLE);
-    }
-
     protected void updatePlaybackSpeedButton(Playable media) {
         if (butPlaybackSpeed == null || controller == null) {
             return;
@@ -286,8 +251,6 @@ public class AudioPlayerFragment extends Fragment implements
         String speedStr = new DecimalFormat("0.00").format(speed);
         txtvPlaybackSpeed.setText(speedStr);
         butPlaybackSpeed.setSpeed(speed);
-        butPlaybackSpeed.setVisibility(View.VISIBLE);
-        txtvPlaybackSpeed.setVisibility(View.VISIBLE);
     }
 
     private void loadMediaInfo(boolean includingChapters) {
@@ -550,21 +513,21 @@ public class AudioPlayerFragment extends Fragment implements
         if (feedItem != null && FeedItemMenuHandler.onMenuItemClicked(this, item.getItemId(), feedItem)) {
             return true;
         }
-        switch (item.getItemId()) {
-            case R.id.disable_sleeptimer_item: // Fall-through
-            case R.id.set_sleeptimer_item:
-                new SleepTimerDialog().show(getChildFragmentManager(), "SleepTimerDialog");
-                return true;
-            case R.id.audio_controls:
-                PlaybackControlsDialog dialog = PlaybackControlsDialog.newInstance();
-                dialog.show(getChildFragmentManager(), "playback_controls");
-                return true;
-            case R.id.open_feed_item:
-                if (feedItem != null) {
-                    Intent intent = MainActivity.getIntentToOpenFeed(getContext(), feedItem.getFeedId());
-                    startActivity(intent);
-                }
-                return true;
+
+        final int itemId = item.getItemId();
+        if (itemId == R.id.disable_sleeptimer_item || itemId == R.id.set_sleeptimer_item) {
+            new SleepTimerDialog().show(getChildFragmentManager(), "SleepTimerDialog");
+            return true;
+        } else if (itemId == R.id.audio_controls) {
+            PlaybackControlsDialog dialog = PlaybackControlsDialog.newInstance();
+            dialog.show(getChildFragmentManager(), "playback_controls");
+            return true;
+        } else if (itemId == R.id.open_feed_item) {
+            if (feedItem != null) {
+                Intent intent = MainActivity.getIntentToOpenFeed(getContext(), feedItem.getFeedId());
+                startActivity(intent);
+            }
+            return true;
         }
         return false;
     }
