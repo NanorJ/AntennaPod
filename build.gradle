@@ -10,6 +10,8 @@ buildscript {
         classpath 'de.timfreiheit.resourceplaceholders:placeholders:0.4'
         classpath "gradle.plugin.com.github.spotbugs.snom:spotbugs-gradle-plugin:4.7.0"
         classpath 'org.codehaus.groovy:groovy-xml:3.0.9'
+        classpath 'androidx.benchmark:benchmark-gradle-plugin:1.0.0'
+        //androidTestImplementation project(':benchmarkable')
     }
 }
 

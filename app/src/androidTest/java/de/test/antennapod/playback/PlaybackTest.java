@@ -2,6 +2,9 @@ package de.test.antennapod.playback;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+
+import androidx.benchmark.BenchmarkState;
+import androidx.benchmark.junit4.BenchmarkRule;
 import androidx.preference.PreferenceManager;
 
 import androidx.test.filters.LargeTest;
@@ -11,6 +14,7 @@ import androidx.test.rule.ActivityTestRule;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
@@ -32,6 +36,7 @@ import de.test.antennapod.ui.UITestUtils;
 @RunWith(Parameterized.class)
 public class PlaybackTest {
     @Rule
+    public BenchmarkRule benchmarkRule = new BenchmarkRule();
     public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class, false, false);
 
     @Parameterized.Parameter(value = 0)
@@ -65,6 +70,15 @@ public class PlaybackTest {
         uiTestUtils.tearDown();
         if (controller != null) {
             controller.release();
+        }
+    }
+
+    @Test
+    public void setBenchmarkSomeWork() throws Exception {
+        final BenchmarkState state = benchmarkRule.getState();
+        while(state.keepRunning()){
+            //function to benchmark
+            setUp();
         }
     }
 }

@@ -77,4 +77,5 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
     androidTestImplementation "androidx.test:runner:$runnerVersion"
     androidTestImplementation "androidx.test:rules:$rulesVersion"
+    androidTestImplementation 'androidx.benchmark:benchmark-macro-junit4:1.1.0-beta04'
 }

@@ -120,6 +120,7 @@ dependencies {
     implementation project(':playback:cast')
     implementation project(':ui:app-start-intent')
     implementation project(':ui:common')
+    implementation 'androidx.benchmark:benchmark-junit4:1.0.0'
 
     annotationProcessor "androidx.annotation:annotation:$annotationVersion"
     implementation "androidx.appcompat:appcompat:$appcompatVersion"
@@ -172,6 +173,7 @@ dependencies {
     androidTestImplementation "androidx.test:runner:$runnerVersion"
     androidTestImplementation "androidx.test:rules:$rulesVersion"
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.benchmark:benchmark-macro-junit4:1.1.0-beta04'
 }
 
 if (project.hasProperty("antennaPodPlayPublisherCredentials")) {
