@@ -82,11 +82,17 @@ android {
                 }
             }
         }
+        benchmark {
+            initWith buildTypes.release
+            signingConfig signingConfigs.debug
+            debuggable false
+        }
         release {
             resValue "string", "provider_authority", "de.danoeh.antennapod.provider"
             minifyEnabled true
             shrinkResources true
             signingConfig signingConfigs.releaseConfig
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt')
         }
     }
 
@@ -172,6 +178,7 @@ dependencies {
     androidTestImplementation "androidx.test:runner:$runnerVersion"
     androidTestImplementation "androidx.test:rules:$rulesVersion"
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.benchmark:benchmark-junit4:1.1.0-beta04'
 }
 
 if (project.hasProperty("antennaPodPlayPublisherCredentials")) {

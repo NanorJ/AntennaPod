@@ -233,6 +233,7 @@ public class OnlineFeedViewActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        System.out.println("SELECTE ITEM");
         if (item.getItemId() == android.R.id.home) {
             Intent destIntent = new Intent(this, MainActivity.class);
             if (NavUtils.shouldUpRecreateTask(this, destIntent)) {
