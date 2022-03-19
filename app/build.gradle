@@ -39,6 +39,7 @@ android {
                 arguments = [eventBusIndex: 'de.danoeh.antennapod.ApEventBusIndex']
             }
         }
+        signingConfig signingConfigs.debug
     }
 
     signingConfigs {
@@ -82,11 +83,18 @@ android {
                 }
             }
         }
+        benchmark {
+            signingConfig signingConfigs.debug
+            debuggable false
+            initWith buildTypes.release
+            matchingFallbacks = ['release']
+        }
         release {
             resValue "string", "provider_authority", "de.danoeh.antennapod.provider"
             minifyEnabled true
             shrinkResources true
-            signingConfig signingConfigs.releaseConfig
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+//            signingConfig signingConfigs.releaseConfig
         }
     }
 
