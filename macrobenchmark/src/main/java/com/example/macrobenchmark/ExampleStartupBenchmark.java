@@ -1,6 +1,9 @@
 package com.example.macrobenchmark;
 
+import android.content.Intent;
+
 import androidx.benchmark.macro.CompilationMode;
+import androidx.benchmark.macro.FrameTimingMetric;
 import androidx.benchmark.macro.StartupMode;
 import androidx.benchmark.macro.StartupTimingMetric;
 import androidx.benchmark.macro.junit4.MacrobenchmarkRule;
@@ -35,17 +38,21 @@ public class ExampleStartupBenchmark {
     @Test
     public void startup() {
         mBenchmarkRule.measureRepeated(
-                "de.danoeh.antennapod.debug",
-                Collections.singletonList(new StartupTimingMetric()),
-                new CompilationMode.Full(),
-                StartupMode.COLD,
-                3,
-                scope -> {
-                    scope.pressHome(300);
-//                    scope.startActivityAndWait((intent) -> null);
-//                    return null;
-                    scope.startActivityAndWait();
-                    return Unit.INSTANCE;
-                });
+            "de.danoeh.antennapod.debug",
+            Collections.singletonList(new StartupTimingMetric()),     // THIS KINDA WORKS IDK: FrameTimingMetric
+            new CompilationMode.Full(),
+            StartupMode.WARM,
+            3,
+            scope -> {
+                scope.pressHome(300);
+                scope.startActivityAndWait((intent) -> null);
+                return null;
+//                    var intent = Intent("$packageName.MAIN_ACTIVITY")
+//                Intent intent = Intent("$packageName.RECYCLER_VIEW_ACTIVITY")
+//                scope.startActivityAndWait();
+//                return Unit.INSTANCE;
+            }
+
+        );
     }
 }

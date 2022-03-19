@@ -18,6 +18,7 @@ android {
         targetSdk 31
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunnerArguments["androidx.benchmark.suppressErrors"] = "DEBUGGABLE"
     }
 
     buildTypes {
@@ -26,7 +27,7 @@ android {
         // for easy local/CI testing.
         benchmark {
             isDefault = true
-            debuggable = true
+            debuggable = false
             signingConfig = debug.signingConfig
             matchingFallbacks = ['release']
         }
