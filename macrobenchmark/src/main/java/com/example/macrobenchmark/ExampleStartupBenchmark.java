@@ -12,6 +12,8 @@ import org.junit.runner.RunWith;
 
 import java.util.Collections;
 
+import kotlin.Unit;
+
 /**
  * This is an example startup benchmark.
  * <p>
@@ -40,8 +42,10 @@ public class ExampleStartupBenchmark {
                 3,
                 scope -> {
                     scope.pressHome(300);
-                    scope.startActivityAndWait((intent) -> null);
-                    return null;
+//                    scope.startActivityAndWait((intent) -> null);
+//                    return null;
+                    scope.startActivityAndWait();
+                    return Unit.INSTANCE;
                 });
     }
 }

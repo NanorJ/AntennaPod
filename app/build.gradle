@@ -88,6 +88,7 @@ android {
             debuggable false
             initWith buildTypes.release
             matchingFallbacks = ['release']
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         release {
             resValue "string", "provider_authority", "de.danoeh.antennapod.provider"
